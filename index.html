@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuaGenius - AI過去問ジェネレーター</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.30.1">
+    <title>DriveGenius - 普通免許 学科試験 本番対策AIトレーナー</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=1.0.0">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         .markdown-body {
@@ -13,14 +16,18 @@
         }
     </style>
 </head>
+
 <body>
     <div id="app">
         <header>
             <div class="logo">
-                <span class="icon">✨</span> <span class="logo-text">QuaGenius</span> <span class="version-badge clickable-badge" id="versionBadge" title="更新履歴 (Changelog) を見る">v2.30.1</span>
+                <span class="icon">🚗</span> <span class="logo-text">DriveGenius</span> <span
+                    class="version-badge clickable-badge" id="versionBadge" title="更新履歴 (Changelog) を見る">v1.0.0</span>
             </div>
             <div class="header-actions">
-                <button id="cloudSyncHeaderBtn" class="icon-btn cloud-sync-btn" title="Googleドライブ自動クラウド同期（未設定：クリックで設定・同期）">☁️<span id="cloudSyncDot" class="sync-dot sync-dot-off"></span></button>
+                <button id="cloudSyncHeaderBtn" class="icon-btn cloud-sync-btn"
+                    title="Googleドライブ自動クラウド同期（未設定：クリックで設定・同期）">☁️<span id="cloudSyncDot"
+                        class="sync-dot sync-dot-off"></span></button>
                 <button id="syllabusHeaderBtn" class="icon-btn" title="シラバス網羅マップ＆弱点傾向分析（学習の現在地）">🗺️</button>
                 <button id="bookmarksHeaderBtn" class="icon-btn" title="ブックマーク一覧（保存した良問・解説・チャット）">⭐</button>
                 <button id="statsBtn" class="icon-btn" title="成績・統計・データバックアップ">📊</button>
@@ -32,16 +39,13 @@
         <main>
             <div class="glass-card controls-section">
                 <div class="control-group">
-                    <label for="examSelect">資格試験</label>
+                    <label for="examSelect">試験区分・対策コース</label>
                     <div class="custom-select">
                         <select id="examSelect">
-                            <option value="sme">中小企業診断士</option>
-                            <option value="fp1">FP1級</option>
-                            <option value="tax">税理士</option>
-                            <option value="boki2">日商簿記2級</option>
-                            <option value="boki1">日商簿記1級</option>
-                            <option value="itpass">ITパスポート</option>
-                            <option value="takken">宅地建物取引士</option>
+                            <option value="honmen">本免許 学科試験（全範囲）</option>
+                            <option value="karimen">仮免許 学科試験（第一段階）</option>
+                            <option value="signs">道路標識・標示 マスター</option>
+                            <option value="hazard">危険予測イラスト問題（2点）</option>
                         </select>
                     </div>
                 </div>
@@ -64,10 +68,10 @@
                     </div>
                 </div>
 
-                <!-- v2.20: 学習の現在地（シラバス網羅ミニ進捗バー） -->
+                <!-- 学習の現在地（シラバス網羅ミニ進捗バー） -->
                 <div id="syllabusMiniBar" class="syllabus-mini-bar">
                     <div class="syllabus-mini-top">
-                        <span id="syllabusMiniText" class="syllabus-mini-text">🗺️ 学習の現在地: 0 / 10 論点学習済 (0%)</span>
+                        <span id="syllabusMiniText" class="syllabus-mini-text">🗺️ 学習の現在地: 0 / 7 論点学習済 (0%)</span>
                         <button type="button" id="openSyllabusMapBtn" class="syllabus-open-btn">
                             🗺️ 網羅マップ＆弱点分析を開く
                         </button>
@@ -78,36 +82,40 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="formatSelect">出題形式</label>
+                    <label for="formatSelect">出題ソース・形式（本番形式）</label>
                     <div class="custom-select">
                         <select id="formatSelect">
-                            <option value="auto">🎲 おまかせ (4択 / 記述)</option>
-                            <option value="choice">🔘 4択問題</option>
-                            <option value="input">✍️ 記述・数値入力問題</option>
+                            <option value="hybrid">🛡️ ハイブリッド（精査済みバンク優先＋AI類題生成）</option>
+                            <option value="bank">📚 精査済み問題バンクのみ（APIキー不要・確実）</option>
+                            <option value="ai_tf">🤖 AI生成：○×問題（1点）</option>
+                            <option value="ai_hazard">🤖 AI生成：危険予測3連○×（2点）</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="control-group checkbox-group options-checkbox-grid">
                     <label class="check-label">
-                        <input type="checkbox" id="calcOptionCheckbox">
-                        <span>🧮 計算・グラフ(表)問題を優先する</span>
+                        <input type="checkbox" id="trickOptionCheckbox">
+                        <span>⚠️ ひっかけ・数値ルール（5m/10m・例外等）を優先</span>
                     </label>
-                    <label class="check-label grounding-check-label" title="Gemini APIのGoogle検索グラウンディング機能を用いて、最新の法改正・税制改正・統計データをWeb検索しながら作問・解説します（Gemini選択時のみ有効）">
+                    <label class="check-label grounding-check-label"
+                        title="Gemini APIのGoogle検索グラウンディング機能を用いて、最新の道路交通法改正を確認しながら作問・解説します（Gemini選択時のみ有効）">
                         <input type="checkbox" id="searchGroundingCheckbox">
-                        <span>🌐 最新法改正・Web検索連動 <small class="grounding-tag">Gemini</small></span>
+                        <span>🌐 最新道交法改正・Web検索連動 <small class="grounding-tag">Gemini</small></span>
                     </label>
                 </div>
 
                 <div class="action-buttons">
                     <button id="generateBtn" class="primary-btn flex-1">
-                        <span class="btn-text">新規問題を生成</span>
+                        <span class="btn-text">新規問題を出題</span>
                         <div class="spinner hidden"></div>
                     </button>
-                    <button id="reviewBtn" class="secondary-btn flex-1" disabled title="間違えた問題からランダムに出題します（正解すると消化されます）">
+                    <button id="reviewBtn" class="secondary-btn flex-1" disabled
+                        title="間違えた問題からランダムに出題します（正解すると消化されます）">
                         <span class="btn-text">📖 復習モード (<span id="mistakeCount">0</span>)</span>
                     </button>
-                    <button id="bookmarkModeBtn" class="secondary-btn flex-1" disabled title="ブックマーク保存した良問・解説・AI講師チャット履歴の一覧を開きます">
+                    <button id="bookmarkModeBtn" class="secondary-btn flex-1" disabled
+                        title="ブックマーク保存した良問・解説・AI教官チャット履歴の一覧を開きます">
                         <span class="btn-text">⭐ ブックマーク (<span id="bookmarkCount">0</span>)</span>
                     </button>
                 </div>
@@ -116,36 +124,50 @@
             <!-- Quiz Display Area -->
             <div id="quizSection" class="glass-card quiz-section hidden">
                 <div class="quiz-badges-row">
-                    <div class="badge" id="engineBadge">Gemini 4 Hydrogen</div>
+                    <div class="badge" id="engineBadge">精査済み問題バンク</div>
+                    <div class="badge source-badge-bank" id="sourceBadge">✅ 精査バンク ・ 配点1点</div>
                     <div class="badge subtopic-badge hidden" id="subtopicBadge">📌 論点</div>
                 </div>
+
+                <!-- 道路標識SVG / 危険予測イラストSVG 表示エリア -->
+                <div id="quizVisualContainer" class="quiz-visual-container hidden"></div>
+
                 <div id="questionText" class="markdown-body question-markdown">問題文がここに表示されます。</div>
-                
-                <!-- 4択選択肢コンテナ -->
-                <div id="optionsContainer" class="options-container">
-                    <!-- Options populated by JS -->
+
+                <!-- 本番 ○×（正誤）解答コンテナ -->
+                <div id="tfContainer" class="tf-container hidden">
+                    <div class="tf-buttons-grid">
+                        <button type="button" id="tfTrueBtn" class="tf-btn tf-btn-true" data-val="true">
+                            <span class="tf-symbol">⭕</span>
+                            <span class="tf-label">正しい (○)</span>
+                            <span class="tf-key-hint">[O / ←]</span>
+                        </button>
+                        <button type="button" id="tfFalseBtn" class="tf-btn tf-btn-false" data-val="false">
+                            <span class="tf-symbol">❌</span>
+                            <span class="tf-label">誤り (×)</span>
+                            <span class="tf-key-hint">[X / →]</span>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- 記述式解答入力コンテナ -->
-                <div id="inputAnswerContainer" class="input-answer-container hidden">
-                    <div class="input-field-wrapper">
-                        <label id="inputPromptLabel" for="answerInput">解答を入力してください:</label>
-                        <div class="input-with-unit">
-                            <input type="text" id="answerInput" placeholder="例: 120,000 または 勘定科目" autocomplete="off">
-                            <span id="inputUnitBadge" class="unit-badge hidden">円</span>
-                        </div>
+                <!-- 本免 危険予測3連○×（2点問題）コンテナ -->
+                <div id="hazardContainer" class="hazard-container hidden">
+                    <div id="hazardStatementsList" class="hazard-statements-list">
+                        <!-- 3 statements populated by JS -->
                     </div>
-                    <button id="submitAnswerBtn" class="primary-btn mt-3" style="width: 100%;">
-                        <span class="btn-text">解答を送信する</span>
+                    <button type="button" id="submitHazardBtn" class="primary-btn mt-3" style="width: 100%;">
+                        <span class="btn-text">✅ 3問まとめて判定する（全問正解で2点）</span>
                     </button>
                 </div>
 
                 <div class="skip-container">
-                    <button id="skipSameTopicBtn" class="secondary-btn skip-sub-btn" title="現在の小分類（論点）のまま、直前の問題とは異なる切り口・別パターンの問題を再生成します">
+                    <button id="skipSameTopicBtn" class="secondary-btn skip-sub-btn"
+                        title="現在の小分類（論点）のまま、別パターンの問題に切り替えます">
                         <span class="btn-text">🔄 同じ論点で別問題に切替</span>
                         <div class="spinner hidden"></div>
                     </button>
-                    <button id="skipBtn" class="secondary-btn skip-main-btn" title="現在の小分類（論点）を除外し、必ず別の小分類（テーマ）から次の問題を出題します">
+                    <button id="skipBtn" class="secondary-btn skip-main-btn"
+                        title="現在の小分類（論点）を除外し、必ず別の小分類（テーマ）から次の問題を出題します">
                         <span class="btn-text">⏭️ 別テーマへスキップ（この論点を除外）</span>
                         <div class="spinner hidden"></div>
                     </button>
@@ -159,68 +181,62 @@
                     <h3 id="resultTitle">結果</h3>
                 </div>
 
-                <!-- 記述解答用フィードバック表示 -->
-                <div id="inputResultFeedback" class="input-result-feedback hidden">
-                    <div class="answer-compare-box">
-                        <div class="user-answer-row">
-                            <span class="compare-label">あなたの解答:</span>
-                            <span id="userAnswerDisplay" class="compare-value"></span>
-                        </div>
-                        <div class="correct-answer-row">
-                            <span class="compare-label">模範解答:</span>
-                            <span id="correctAnswerDisplay" class="compare-value"></span>
-                        </div>
-                    </div>
-                    <div class="self-grade-action mt-2 text-right">
-                        <button id="overrideCorrectBtn" class="override-btn" title="表記ゆれ等で不正解になった場合に正解扱いに変更します">
-                            🔄 正解扱いにする（自己採点救済）
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="result-actions" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem; align-items: center;">
-                    <button id="ttsBtn" class="secondary-btn" style="flex: 1; min-width: 150px; font-size: 0.9rem; padding: 0.6rem;">
+                <!-- 解答結果サマリーバナー -->
+                <div id="answerSummaryBanner" class="answer-summary-banner hidden"></div>
+
+                <div class="result-actions"
+                    style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem; align-items: center;">
+                    <button id="ttsBtn" class="secondary-btn"
+                        style="flex: 1; min-width: 150px; font-size: 0.9rem; padding: 0.6rem;">
                         <span class="btn-text">🔊 解説を読み上げる</span>
                     </button>
-                    
+
                     <!-- 音声読み上げ速度コントローラー -->
-                    <div class="tts-speed-control" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: 1px solid var(--card-border); flex: 1.2; min-width: 180px;">
+                    <div class="tts-speed-control"
+                        style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: 1px solid var(--card-border); flex: 1.2; min-width: 180px;">
                         <span style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">⚡ 速度:</span>
-                        <input type="range" id="ttsSpeed" min="0.5" max="2.0" step="0.1" value="1.0" style="width: 100%; accent-color: var(--primary-color); cursor: pointer; height: 6px; padding: 0; background: transparent; border: none; margin: 0;">
-                        <span id="ttsSpeedVal" style="font-size: 0.8rem; font-weight: bold; min-width: 2.2rem; text-align: right;">1.0x</span>
+                        <input type="range" id="ttsSpeed" min="0.5" max="2.0" step="0.1" value="1.0"
+                            style="width: 100%; accent-color: var(--primary-color); cursor: pointer; height: 6px; padding: 0; background: transparent; border: none; margin: 0;">
+                        <span id="ttsSpeedVal"
+                            style="font-size: 0.8rem; font-weight: bold; min-width: 2.2rem; text-align: right;">1.0x</span>
                     </div>
 
-                    <button id="printBtn" class="secondary-btn" style="flex: 1; min-width: 150px; font-size: 0.9rem; padding: 0.6rem;">
+                    <button id="printBtn" class="secondary-btn"
+                        style="flex: 1; min-width: 150px; font-size: 0.9rem; padding: 0.6rem;">
                         <span class="btn-text">📄 PDFとして保存 / 印刷</span>
                     </button>
 
-                    <button id="bookmarkToggleBtn" class="secondary-btn bookmark-toggle-btn" style="flex: 1; min-width: 165px; font-size: 0.9rem; padding: 0.6rem;" title="この問題・解説・AI講師とのチャット記録をブックマークに保存します">
+                    <button id="bookmarkToggleBtn" class="secondary-btn bookmark-toggle-btn"
+                        style="flex: 1; min-width: 165px; font-size: 0.9rem; padding: 0.6rem;"
+                        title="この問題・解説・AI教官とのチャット記録をブックマークに保存します">
                         <span class="btn-text">⭐ ブックマーク保存</span>
                     </button>
                 </div>
-                
+
                 <div class="explanation-box">
                     <h4>解説</h4>
                     <div id="explanationText" class="markdown-body"></div>
                     <!-- Google検索グラウンディング情報表示エリア -->
                     <div id="groundingInfoBox" class="grounding-info-box hidden">
-                        <div class="grounding-info-title">🌐 Google検索グラウンディング（最新法令・Web参照元）</div>
+                        <div class="grounding-info-title">🌐 Google検索グラウンディング（最新道交法・Web参照元）</div>
                         <div id="groundingSourcesList" class="grounding-sources-list"></div>
                     </div>
                 </div>
 
-                <!-- v2.00 / v2.10: AI専門講師への深掘り質問（AI家庭教師チャット＆記録・エクスポート） -->
+                <!-- AI教習指導員への深掘り質問（AI教官チャット＆記録・エクスポート） -->
                 <div id="aiTutorSection" class="ai-tutor-section mt-4">
                     <div class="ai-tutor-header">
                         <div class="ai-tutor-title">
                             <span class="tutor-icon">🎓</span>
-                            <span>AI専門講師にこの問題を深掘り質問する</span>
+                            <span>AI教習指導員にこの問題を深掘り質問する</span>
                         </div>
                         <div class="tutor-export-toolbar">
-                            <button type="button" id="copyTutorNoteBtn" class="tutor-tool-btn" title="問題・解説・AI講師とのチャット全文（図表含む）をクリップボードにコピーします">
+                            <button type="button" id="copyTutorNoteBtn" class="tutor-tool-btn"
+                                title="問題・解説・AI教官とのチャット全文をクリップボードにコピーします">
                                 📋 ノート全文コピー
                             </button>
-                            <button type="button" id="downloadTutorMdBtn" class="tutor-tool-btn" title="問題・解説・AI講師とのチャット全文（Markdown表含む）を.mdファイルとして保存します">
+                            <button type="button" id="downloadTutorMdBtn" class="tutor-tool-btn"
+                                title="問題・解説・AI教官とのチャット全文を.mdファイルとして保存します">
                                 💾 Markdown保存 (.md)
                             </button>
                         </div>
@@ -228,10 +244,15 @@
 
                     <!-- ワンタップ質問チップ -->
                     <div class="tutor-quick-chips">
-                        <button type="button" class="tutor-chip-btn" data-prompt="この問題の解説を、初学者にも分かりやすいように噛み砕いて具体例付きで教えてください。">💡 初学者向けに噛み砕いて</button>
-                        <button type="button" class="tutor-chip-btn" data-prompt="他の選択肢（誤りの選択肢）がなぜダメなのか、本試験で迷いやすいひっかけポイントを深掘りしてください。">🔍 他の選択肢・ひっかけの理由</button>
-                        <button type="button" class="tutor-chip-btn" data-prompt="この問題の計算過程や仕訳・判断ステップを、1ステップずつ順番に省略せず教えてください。">📐 計算・仕訳の手順を1ステップずつ</button>
-                        <button type="button" class="tutor-chip-btn" data-prompt="この論点に関連して、本試験で一緒に問われやすい周辺知識や効率的な暗記法（語呂合わせ・比較表など）を教えてください。">📘 関連知識・暗記のポイント</button>
+                        <button type="button" class="tutor-chip-btn"
+                            data-prompt="この問題の解説を、運転免許の初学者にも分かりやすいように具体例付きで噛み砕いて教えてください。">💡 初学者向けに噛み砕いて</button>
+                        <button type="button" class="tutor-chip-btn"
+                            data-prompt="本試験でこの問題がどういう言い換えやひっかけパターンで出題されやすいか、見抜くポイントを教えてください。">⚠️ ひっかけ・例外のワナ</button>
+                        <button type="button" class="tutor-chip-btn"
+                            data-prompt="この論点に関わる重要な数値（距離・速度・時間・制限値など）や判断基準を表で整理してください。">📐 数値・距離・優先のルール</button>
+                        <button type="button" class="tutor-chip-btn"
+                            data-prompt="この論点と混同しやすい似た標識や似たルール（例：徐行と一時停止、駐停車禁止と駐車禁止など）の覚え方を教えてください。">📘
+                            関連標識・暗記のポイント</button>
                     </div>
 
                     <!-- チャット履歴表示コンテナ -->
@@ -239,14 +260,15 @@
 
                     <!-- 自由質問入力フォーム -->
                     <div class="tutor-input-row">
-                        <input type="text" id="tutorInput" placeholder="例: なぜここで減価償却費を月割計算するのですか？" autocomplete="off">
+                        <input type="text" id="tutorInput" placeholder="例: なぜ駐停車禁止は5mで、消火栓も5mなのに火災報知機は1mなのですか？"
+                            autocomplete="off">
                         <button type="button" id="tutorSendBtn" class="primary-btn tutor-send-btn">
                             <span class="btn-text">質問する</span>
                             <div class="spinner hidden"></div>
                         </button>
                     </div>
                 </div>
-                
+
                 <button id="nextBtn" class="secondary-btn mt-4">
                     <span class="btn-text">次の問題へ</span>
                     <div class="spinner hidden"></div>
@@ -263,89 +285,103 @@
                 <button id="closeApiModalBtn" class="icon-btn" title="閉じる (Esc)">✖</button>
             </div>
             <div class="api-modal-body">
-            <p class="modal-desc" style="margin-top: 0.5rem; margin-bottom: 0.9rem;">問題生成に使用するAIエンジンを選択し、APIキーを入力してください。キーは端末内のブラウザにのみ安全に保存されます。</p>
+                <p class="modal-desc" style="margin-top: 0.5rem; margin-bottom: 0.9rem;">
+                    精査済み問題バンク（63問）はAPIキーなしですぐに使えます。さらにAIによる無限の類題生成やAI教習指導員への深掘り質問を使う場合は、AIエンジンを選択しAPIキーを入力してください。</p>
 
-            <button type="button" id="openApiGuideBtn" class="api-guide-banner-btn">
-                📖 英語画面でも安心！「無料APIキー取得＆完全無料チェックマニュアル」を開く
-            </button>
-            
-            <div class="engine-toggle" style="display: flex; flex-direction: column; gap: 0.6rem;">
-                <label class="radio-label">
-                    <input type="radio" name="aiEngine" value="gemini" checked>
-                    <span>Gemini 4 Hydrogen / 2.5 Flash (推奨・無料枠あり・自動フォールバック)</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="aiEngine" value="groq">
-                    <span>Groq [Llama 3.3 70B / 3.1 8B] (爆速・無料枠あり)</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="aiEngine" value="openrouter">
-                    <span>OpenRouter [Auto Free Router] (無料モデル専用・自動切替)</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="aiEngine" value="openai">
-                    <span>OpenAI [GPT-4o-mini / GPT-4.1-mini] (有料API)</span>
-                </label>
-            </div>
+                <button type="button" id="openApiGuideBtn" class="api-guide-banner-btn">
+                    📖 英語画面でも安心！「無料APIキー取得＆完全無料チェックマニュアル」を開く
+                </button>
 
-            <div class="input-group mt-4" id="geminiKeyGroup">
-                <label for="geminiApiKeyInput">Google Gemini API Key <span class="free-safe-pill">✅ クレカ未登録なら完全無料</span></label>
-                <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy...">
-                <div class="api-helper-links mt-2">
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="link-btn text-small">🔗 Google AI Studioでキーを取得 (無料)</a>
-                    <span class="api-helper-note">※Plan欄が「Free of charge (無料)」なら課金されません</span>
+                <div class="engine-toggle" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <label class="radio-label">
+                        <input type="radio" name="aiEngine" value="gemini" checked>
+                        <span>Gemini 4 Hydrogen / 2.5 Flash (推奨・無料枠あり・自動フォールバック)</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="aiEngine" value="groq">
+                        <span>Groq [Llama 3.3 70B / 3.1 8B] (爆速・無料枠あり)</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="aiEngine" value="openrouter">
+                        <span>OpenRouter [Auto Free Router] (無料モデル専用・自動切替)</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="aiEngine" value="openai">
+                        <span>OpenAI [GPT-4o-mini / GPT-4.1-mini] (有料API)</span>
+                    </label>
                 </div>
-            </div>
 
-            <div class="input-group mt-4 hidden" id="groqKeyGroup">
-                <label for="groqApiKeyInput">Groq API Key <span class="free-safe-pill">✅ Free Planは完全無料</span></label>
-                <input type="password" id="groqApiKeyInput" placeholder="gsk_...">
-                <div class="api-helper-links mt-2">
-                    <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" class="link-btn text-small">🔗 Groq Consoleでキーを取得 (無料)</a>
-                    <span class="api-helper-note">※Settings &gt; Billing が「Free」かつカード未登録なら1円もかかりません</span>
+                <div class="input-group mt-4" id="geminiKeyGroup">
+                    <label for="geminiApiKeyInput">Google Gemini API Key <span class="free-safe-pill">✅
+                            クレカ未登録なら完全無料</span></label>
+                    <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy...">
+                    <div class="api-helper-links mt-2">
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer"
+                            class="link-btn text-small">🔗 Google AI Studioでキーを取得 (無料)</a>
+                        <span class="api-helper-note">※Plan欄が「Free of charge (無料)」なら課金されません</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="input-group mt-4 hidden" id="openrouterKeyGroup">
-                <label for="openrouterApiKeyInput">OpenRouter API Key <span class="free-safe-pill">✅ 無料モデル(:free)のみ使用</span></label>
-                <input type="password" id="openrouterApiKeyInput" placeholder="sk-or-v1-...">
-                <div class="api-helper-links mt-2">
-                    <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" class="link-btn text-small">🔗 OpenRouterでキーを取得</a>
-                    <a href="https://openrouter.ai/settings/privacy" target="_blank" rel="noopener noreferrer" class="link-btn text-small" style="color: #fbbf24;">⚠️ 404防止: Privacy設定(Free endpoints)をONにする</a>
+                <div class="input-group mt-4 hidden" id="groqKeyGroup">
+                    <label for="groqApiKeyInput">Groq API Key <span class="free-safe-pill">✅ Free
+                            Planは完全無料</span></label>
+                    <input type="password" id="groqApiKeyInput" placeholder="gsk_...">
+                    <div class="api-helper-links mt-2">
+                        <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer"
+                            class="link-btn text-small">🔗 Groq Consoleでキーを取得 (無料)</a>
+                        <span class="api-helper-note">※Settings &gt; Billing が「Free」かつカード未登録なら1円もかかりません</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="input-group mt-4 hidden" id="openaiKeyGroup">
-                <label for="openaiApiKeyInput">OpenAI API Key <span class="paid-warn-pill">💳 要クレジット残高</span></label>
-                <input type="password" id="openaiApiKeyInput" placeholder="sk-proj-...">
-                <div class="api-helper-links mt-2">
-                    <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" class="link-btn text-small">🔗 OpenAI Platformでキーを取得 (要課金登録)</a>
+                <div class="input-group mt-4 hidden" id="openrouterKeyGroup">
+                    <label for="openrouterApiKeyInput">OpenRouter API Key <span class="free-safe-pill">✅
+                            無料モデル(:free)のみ使用</span></label>
+                    <input type="password" id="openrouterApiKeyInput" placeholder="sk-or-v1-...">
+                    <div class="api-helper-links mt-2">
+                        <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer"
+                            class="link-btn text-small">🔗 OpenRouterでキーを取得</a>
+                        <a href="https://openrouter.ai/settings/privacy" target="_blank" rel="noopener noreferrer"
+                            class="link-btn text-small" style="color: #fbbf24;">⚠️ 404防止: Privacy設定(Free
+                            endpoints)をONにする</a>
+                    </div>
                 </div>
-            </div>
 
-            <!-- v2.30: Googleドライブ自動クラウド同期設定 (GAS方式) -->
-            <div class="cloud-sync-settings-box mt-4">
-                <div class="cloud-sync-settings-header">
-                    <h3>☁️ Googleドライブ自動クラウド同期（任意・完全無料）</h3>
-                    <button type="button" id="openGasGuideBtn" class="gas-guide-link-btn">📖 3分セットアップ手順＆コード</button>
+                <div class="input-group mt-4 hidden" id="openaiKeyGroup">
+                    <label for="openaiApiKeyInput">OpenAI API Key <span class="paid-warn-pill">💳
+                            要クレジット残高</span></label>
+                    <input type="password" id="openaiApiKeyInput" placeholder="sk-proj-...">
+                    <div class="api-helper-links mt-2">
+                        <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer"
+                            class="link-btn text-small">🔗 OpenAI Platformでキーを取得 (要課金登録)</a>
+                    </div>
                 </div>
-                <p class="cloud-sync-settings-desc">ご自身のGoogleドライブへ学習実績・シラバス進捗・復習・ブックマークを自動保存し、PC・スマホなど複数端末間でシームレスに同期します。</p>
 
-                <div class="input-group mt-2">
-                    <label for="gasUrlInput">GAS ウェブアプリ URL</label>
-                    <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/....../exec" autocomplete="off">
+                <!-- Googleドライブ自動クラウド同期設定 (GAS方式) -->
+                <div class="cloud-sync-settings-box mt-4">
+                    <div class="cloud-sync-settings-header">
+                        <h3>☁️ Googleドライブ自動クラウド同期（任意・完全無料）</h3>
+                        <button type="button" id="openGasGuideBtn" class="gas-guide-link-btn">📖 3分セットアップ手順＆コード</button>
+                    </div>
+                    <p class="cloud-sync-settings-desc">
+                        ご自身のGoogleドライブへ学習実績・シラバス進捗・復習・ブックマークを自動保存し、PC・スマホなど複数端末間でシームレスに同期します。</p>
+
+                    <div class="input-group mt-2">
+                        <label for="gasUrlInput">GAS ウェブアプリ URL</label>
+                        <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/....../exec"
+                            autocomplete="off">
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="gasTokenInput">合言葉（シークレットトークン）</label>
+                        <input type="password" id="gasTokenInput" placeholder="GASコードに設定した任意の合言葉" autocomplete="off">
+                    </div>
+                    <div class="cloud-sync-inline-actions mt-2">
+                        <button type="button" id="testCloudSyncBtn" class="secondary-btn"
+                            style="flex: 1; font-size: 0.84rem; padding: 0.55rem 0.8rem;">
+                            🔗 接続テスト＆今すぐ同期
+                        </button>
+                        <span id="cloudSyncModalStatus" class="cloud-sync-status-label">未設定</span>
+                    </div>
                 </div>
-                <div class="input-group mt-2">
-                    <label for="gasTokenInput">合言葉（シークレットトークン）</label>
-                    <input type="password" id="gasTokenInput" placeholder="GASコードに設定した任意の合言葉" autocomplete="off">
-                </div>
-                <div class="cloud-sync-inline-actions mt-2">
-                    <button type="button" id="testCloudSyncBtn" class="secondary-btn" style="flex: 1; font-size: 0.84rem; padding: 0.55rem 0.8rem;">
-                        🔗 接続テスト＆今すぐ同期
-                    </button>
-                    <span id="cloudSyncModalStatus" class="cloud-sync-status-label">未設定</span>
-                </div>
-            </div>
             </div>
 
             <div class="modal-actions mt-4">
@@ -354,7 +390,7 @@
         </div>
     </div>
 
-    <!-- v2.1.2: API Acquisition & Free-Tier Verification Guide Modal -->
+    <!-- API Acquisition & Free-Tier Verification Guide Modal -->
     <div id="apiGuideModal" class="modal hidden">
         <div class="modal-content glass-card stats-modal-content" style="max-width: 820px; width: 100%;">
             <div class="modal-header stats-modal-header">
@@ -363,13 +399,12 @@
             </div>
 
             <div class="stats-modal-body api-guide-body">
-                <!-- 1. 共通の安心ポイント -->
                 <div class="guide-alert-box">
                     <div class="guide-alert-title">🛡️ 結論：クレジットカードを登録しない限り、勝手に課金されることは100%ありません</div>
-                    <p>Gemini・Groq・OpenRouterの3社はいずれも<strong>「クレジットカード登録なし」で無料APIキーを発行</strong>できます。万が一、短時間にたくさん問題を解いて無料枠の上限に達した場合でも、<strong>事後請求や自動課金に切り替わることはなく、単に「利用制限エラー（しばらく待ってから再試行）」になって止まるだけ</strong>ですのでご安心ください。</p>
+                    <p>Gemini・Groq・OpenRouterの3社はいずれも<strong>「クレジットカード登録なし」で無料APIキーを発行</strong>できます。無料枠の上限に達した場合でも、<strong>事後請求や自動課金に切り替わることはなく、単に一時制限エラーになるだけ</strong>です（※精査済み問題バンクのみならAPIキー自体も不要です）。
+                    </p>
                 </div>
 
-                <!-- 2. Google Gemini -->
                 <div class="guide-card">
                     <div class="guide-card-header">
                         <span class="guide-provider-badge badge-gemini">推奨 No.1</span>
@@ -378,21 +413,24 @@
                     <div class="guide-steps">
                         <h4>【取得手順】</h4>
                         <ol>
-                            <li><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="link-btn">Google AI Studio (API Keys)</a> にGoogleアカウントでログインします。</li>
-                            <li>右上の <strong><code>Create API key</code>（APIキーを作成）</strong> を押し、表示された <code>AIzaSy...</code> から始まる文字列をコピーして本アプリに貼り付けます。</li>
+                            <li><a href="https://aistudio.google.com/app/apikey" target="_blank"
+                                    rel="noopener noreferrer" class="link-btn">Google AI Studio (API Keys)</a>
+                                にGoogleアカウントでログインします。</li>
+                            <li>右上の <strong><code>Create API key</code>（APIキーを作成）</strong> を押し、表示された
+                                <code>AIzaSy...</code> から始まる文字列をコピーして本アプリに貼り付けます。</li>
                         </ol>
                         <div class="guide-verify-box">
                             <strong>🔍 本当に無料か確認するポイント（英語表記の見方）:</strong>
                             <ul>
-                                <li>APIキー一覧画面の右端にある <strong><code>Plan</code>（プラン）列</strong> を見て、<strong><code>Free of charge</code>（または日本語で「無料」）</strong> と書かれていれば完全無料です。</li>
-                                <li><code>Set up Billing</code>（請求先の設定）という青いリンクが表示されている状態＝「まだ課金設定をしていない（＝無料枠で稼働中）」という意味です。</li>
-                                <li>本アプリは既存の無料APIキーのままで最新の <strong><code>Gemini 4 Hydrogen</code></strong> を最優先使用し、制限時は <code>Gemini 2.5 Flash / Lite</code> へ自動切替します。</li>
+                                <li>APIキー一覧画面の右端にある <strong><code>Plan</code>（プラン）列</strong>
+                                    を見て、<strong><code>Free of charge</code>（または「無料」）</strong> と書かれていれば完全無料です。</li>
+                                <li>本アプリは <strong><code>Gemini 4 Hydrogen</code></strong> を最優先使用し、制限時は
+                                    <code>Gemini 2.5 Flash / Lite</code> へ自動切替します。</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Groq -->
                 <div class="guide-card">
                     <div class="guide-card-header">
                         <span class="guide-provider-badge badge-groq">爆速・無料</span>
@@ -401,23 +439,21 @@
                     <div class="guide-steps">
                         <h4>【取得手順（英語画面）】</h4>
                         <ol>
-                            <li><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" class="link-btn">Groq Cloud Console</a> を開き、Googleアカウント等でログイン（Sign in）します。</li>
-                            <li>左メニューの <strong><code>API Keys</code></strong> をクリックし、画面中央または右上の <strong><code>Create API Key</code></strong> ボタンを押します。</li>
-                            <li><code>Display Name for API Key</code> に適当な名前（例: <code>quiz</code>）を入力して <strong><code>Submit</code></strong> を押します。</li>
-                            <li><code>gsk_...</code> から始まるキーが表示されるので、<strong><code>Copy</code></strong> を押して本アプリに貼り付けます（※一度閉じると再表示できないため、その場でコピーしてください）。</li>
+                            <li><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer"
+                                    class="link-btn">Groq Cloud Console</a> を開き、Googleアカウント等でログインします。</li>
+                            <li>左メニューの <strong><code>API Keys</code></strong> ＞
+                                <strong><code>Create API Key</code></strong> から <code>gsk_...</code> をコピーして貼り付けます。</li>
                         </ol>
                         <div class="guide-verify-box">
-                            <strong>🔍 本当に無料か確認するポイント（英語表記の見方）:</strong>
+                            <strong>🔍 本当に無料か確認するポイント:</strong>
                             <ul>
-                                <li>左メニュー下の <strong><code>Settings</code> &gt; <code>Billing</code>（請求）</strong> を開きます。</li>
-                                <li><strong><code>Current Plan: Free</code>（現在のプラン：無料）</strong> と表示されていれば、<strong>完全無料</strong>で利用できています！</li>
-                                <li>画面に <code>Upgrade to Developer Plan</code>（有料の開発者プランへアップグレード）というボタンが出ていれば、現在は無料のFreeプランにいる証拠です。カード番号を入力しない限り料金は一切発生しません。</li>
+                                <li><strong><code>Settings</code> &gt; <code>Billing</code></strong> が
+                                    <strong><code>Current Plan: Free</code></strong> であれば完全無料です。</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- 4. OpenRouter -->
                 <div class="guide-card">
                     <div class="guide-card-header">
                         <span class="guide-provider-badge badge-openrouter">複数AI自動切替</span>
@@ -426,38 +462,28 @@
                     <div class="guide-steps">
                         <h4>【取得手順（英語画面）】</h4>
                         <ol>
-                            <li><a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" class="link-btn">OpenRouter Keys</a> にアクセスし、右上の <code>Sign in</code> からGoogleアカウント等でログインします。</li>
-                            <li><strong><code>Create Key</code></strong> ボタンを押し、<code>Name</code> に適当な名前（例: <code>quiz</code>）を入れます。</li>
-                            <li><code>Credit limit (optional)</code>（利用上限額）は<strong>空欄または <code>0</code></strong> のままで <strong><code>Create</code></strong> を押し、<code>sk-or-v1-...</code> のキーをコピーします。</li>
+                            <li><a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer"
+                                    class="link-btn">OpenRouter Keys</a> から <strong><code>Create Key</code></strong>
+                                を押し、<code>sk-or-v1-...</code> のキーをコピーします。</li>
                         </ol>
                         <div class="guide-verify-box">
-                            <strong>🔍 本当に無料か確認するポイント ＆ ⚠️ 404エラー対策（重要）:</strong>
+                            <strong>🔍 無料確認 ＆ ⚠️ 404エラー対策（重要）:</strong>
                             <ul>
-                                <li><strong>無料の確認方法</strong>: 右上メニューの <code>Credits</code>（残高）が <strong><code>$0.00</code></strong> で、カード登録（<code>Add Credits</code>）をしていなければ絶対に課金されません。本アプリ（QuaGenius）はOpenRouterの<strong>無料専用モデル（<code>openrouter/free</code> や末尾 <code>:free</code>）しか呼び出さない安全設計</strong>になっています。</li>
-                                <li><strong>⚠️ OpenRouterで「404エラー」が出る場合の必須設定</strong>: OpenRouterで無料モデルを使うには、<a href="https://openrouter.ai/settings/privacy" target="_blank" rel="noopener noreferrer" class="link-btn">Settings &gt; Privacy（プライバシー設定）</a> を開き、<strong><code>Enable free endpoints that may train on inputs</code></strong>（および <code>may publish prompts</code>）のスイッチを <strong>ON（有効）</strong> にしてください。初期状態（OFF）のままだと、無料モデルへの通信がすべて <code>404 Not Found</code> として拒否されます。</li>
+                                <li><code>Credits</code> が <strong><code>$0.00</code></strong>
+                                    でカード未登録なら課金されません。DriveGeniusは無料専用モデルのみを呼び出します。</li>
+                                <li><a href="https://openrouter.ai/settings/privacy" target="_blank"
+                                        rel="noopener noreferrer" class="link-btn">Settings &gt; Privacy</a> で
+                                    <strong><code>Enable free endpoints that may train on inputs</code></strong> を ON
+                                    にしてください。</li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-
-                <!-- 5. 404エラーや短時間リクエスト集中時のFAQ -->
-                <div class="guide-card">
-                    <div class="guide-card-header">
-                        <span class="guide-provider-badge badge-faq">トラブル解決</span>
-                        <h3>💡 短時間に連続して問題を解くと「404」や制限エラーが出る理由</h3>
-                    </div>
-                    <div class="guide-steps">
-                        <ul>
-                            <li><strong>原因1（短時間のリクエスト集中によるレート制限）</strong>: 無料API枠には「1分間に〇回まで（RPM制限）」というスピード制限があります。連続で問題を生成・スキップしたりAI講師に質問したりすると一時的に制限（HTTP 429）にかかります。</li>
-                            <li><strong>原因2（旧バージョンのフォールバック上書きバグ → v2.1.2で修正済み！）</strong>: v2.1.1以前は、1番目のモデルが「429（スピード制限）」になった際、予備の旧モデル（提供終了で404を返すモデル）へ順番に切り替え、最後の「404エラー」でエラー表示を上書きしてしまう不具合がありました。</li>
-                            <li><strong>v2.1.2での改善</strong>: 廃止モデルを除去して現行モデルへ更新し、スピード制限（429）発生時は数秒のクールダウンを挟んで自動再試行するように改善しました。また、裏での「次の問題の先読み通信」も解答直後の通信とぶつからないよう間隔を空ける制御を導入しています。</li>
-                        </ul>
                     </div>
                 </div>
             </div>
 
             <div class="modal-actions stats-modal-footer border-top">
-                <button type="button" id="closeApiGuideFooterBtn" class="primary-btn" style="width: 100%;">理解しました（設定へ戻る）</button>
+                <button type="button" id="closeApiGuideFooterBtn" class="primary-btn"
+                    style="width: 100%;">理解しました（設定へ戻る）</button>
             </div>
         </div>
     </div>
@@ -469,12 +495,9 @@
                 <h2>📊 成績・統計ダッシュボード</h2>
                 <button id="closeStatsBtn" class="icon-btn" title="閉じる (Esc)">✖</button>
             </div>
-            
+
             <div class="stats-modal-body">
-                <!-- 2カラムレイアウト用のグリッドコンテナ -->
                 <div id="statsDashboardGrid" class="stats-dashboard-grid">
-                    
-                    <!-- 左カラム: 実績値 & グラフ -->
                     <div class="stats-left-col">
                         <div class="stats-overview">
                             <div class="stat-box">
@@ -491,7 +514,6 @@
                             </div>
                         </div>
 
-                        <!-- Weekly Progress Chart -->
                         <div class="stats-details">
                             <h3>📈 直近7日間の学習状況</h3>
                             <div id="weeklyChartContainer" class="weekly-chart-container mt-2">
@@ -500,29 +522,30 @@
                         </div>
                     </div>
 
-                    <!-- 右カラム: 分野別成績 -->
                     <div class="stats-right-col">
                         <div class="stats-details">
-                            <h3>分野別の成績</h3>
+                            <h3>分野別の成績（合格基準：90%以上）</h3>
                             <div id="categoryStatsList" class="category-stats-list mt-2">
                                 <!-- Populated by JS -->
                             </div>
                         </div>
                     </div>
-
                 </div>
-                
-                <!-- v2.10 / v2.30: データ保護・Googleドライブ自動同期＆JSON手動バックアップ -->
+
+                <!-- データ保護・Googleドライブ自動同期＆JSON手動バックアップ -->
                 <div class="backup-restore-section border-top">
                     <div class="backup-restore-header">
                         <h3>☁️ クラウド自動同期 ＆ 手動バックアップ</h3>
-                        <p class="backup-restore-desc">Googleドライブ自動同期（⚙️設定から3分で連携）を有効にすると、複数端末間で自動同期されます。手動でJSONファイル書き出し／復元も可能です。</p>
+                        <p class="backup-restore-desc">
+                            Googleドライブ自動同期（⚙️設定から3分で連携）を有効にすると、複数端末間で自動同期されます。手動でJSONファイル書き出し／復元も可能です。</p>
                     </div>
                     <div class="cloud-stats-bar">
                         <span id="statsCloudStatusText" class="cloud-stats-status">☁️ クラウド同期: 未設定</span>
                         <div class="cloud-stats-btns">
-                            <button type="button" id="statsCloudPushBtn" class="tutor-tool-btn" title="現在の端末データをGoogleドライブへ今すぐ保存します">☁️ 今すぐクラウドへ保存</button>
-                            <button type="button" id="statsCloudPullBtn" class="tutor-tool-btn" title="Googleドライブ上の最新データでこの端末を上書き復元します">⬇️ クラウドから読込</button>
+                            <button type="button" id="statsCloudPushBtn" class="tutor-tool-btn"
+                                title="現在の端末データをGoogleドライブへ今すぐ保存します">☁️ 今すぐクラウドへ保存</button>
+                            <button type="button" id="statsCloudPullBtn" class="tutor-tool-btn"
+                                title="Googleドライブ上の最新データでこの端末を上書き復元します">⬇️ クラウドから読込</button>
                         </div>
                     </div>
                     <div class="backup-restore-actions mt-2">
@@ -535,7 +558,7 @@
                         <input type="file" id="importDataInput" accept=".json,application/json" class="hidden">
                     </div>
                 </div>
-                
+
                 <div class="modal-actions stats-modal-footer border-top">
                     <button id="resetStatsBtn" class="danger-btn">データをリセット</button>
                 </div>
@@ -543,29 +566,28 @@
         </div>
     </div>
 
-    <!-- v2.10: Bookmark Modal (良問・解説・AI講師チャット履歴コレクション) -->
+    <!-- Bookmark Modal (良問・解説・AI教官チャット履歴コレクション) -->
     <div id="bookmarkModal" class="modal hidden">
         <div class="modal-content glass-card bookmark-modal-content" style="max-width: 820px; width: 100%;">
             <div class="modal-header">
                 <h2>⭐ ブックマーク一覧（良問・解説・チャット記録）</h2>
                 <button id="closeBookmarkBtn" class="icon-btn">✖</button>
             </div>
-            <p class="modal-desc mt-2" style="margin-bottom: 0.8rem;">正解・不正解を問わず保存した良問と解説、およびAI専門講師とのチャット記録をいつでも見返したり再演習できます（正解しても自動削除されません）。</p>
+            <p class="modal-desc mt-2" style="margin-bottom: 0.8rem;">
+                正解・不正解を問わず保存した問題と解説、およびAI教習指導員とのチャット記録をいつでも見返したり再演習できます（正解しても自動削除されません）。</p>
 
             <div class="bookmark-toolbar">
                 <div class="custom-select" style="flex: 1; min-width: 180px;">
                     <select id="bookmarkFilterExam">
-                        <option value="all">すべての資格試験</option>
-                        <option value="sme">中小企業診断士</option>
-                        <option value="fp1">FP1級</option>
-                        <option value="tax">税理士</option>
-                        <option value="boki2">日商簿記2級</option>
-                        <option value="boki1">日商簿記1級</option>
-                        <option value="itpass">ITパスポート</option>
-                        <option value="takken">宅地建物取引士</option>
+                        <option value="all">すべてのコース</option>
+                        <option value="honmen">本免許 学科試験（全範囲）</option>
+                        <option value="karimen">仮免許 学科試験（第一段階）</option>
+                        <option value="signs">道路標識・標示 マスター</option>
+                        <option value="hazard">危険予測イラスト問題（2点）</option>
                     </select>
                 </div>
-                <button type="button" id="startBookmarkPracticeBtn" class="primary-btn" style="width: auto; padding: 0.7rem 1.2rem; font-size: 0.9rem;">
+                <button type="button" id="startBookmarkPracticeBtn" class="primary-btn"
+                    style="width: auto; padding: 0.7rem 1.2rem; font-size: 0.9rem;">
                     🎲 ランダムに1問演習する
                 </button>
             </div>
@@ -598,7 +620,7 @@
         </div>
     </div>
 
-    <!-- v2.20: Syllabus Coverage Map & Weakness/Trend Analysis Modal -->
+    <!-- Syllabus Coverage Map & Weakness/Trend Analysis Modal -->
     <div id="syllabusModal" class="modal hidden">
         <div class="modal-content glass-card stats-modal-content" style="max-width: 960px; width: 100%;">
             <div class="modal-header stats-modal-header">
@@ -607,17 +629,13 @@
             </div>
 
             <div class="stats-modal-body syllabus-modal-body">
-                <!-- 上部フィルタ＆全体網羅率サマリー -->
                 <div class="syllabus-filter-bar">
                     <div class="custom-select" style="flex: 1; min-width: 190px;">
                         <select id="syllabusExamSelect">
-                            <option value="sme">中小企業診断士</option>
-                            <option value="fp1">FP1級 (学科)</option>
-                            <option value="tax">税理士</option>
-                            <option value="boki2">日商簿記2級</option>
-                            <option value="boki1">日商簿記1級</option>
-                            <option value="itpass">ITパスポート</option>
-                            <option value="takken">宅地建物取引士</option>
+                            <option value="honmen">本免許 学科試験（全範囲）</option>
+                            <option value="karimen">仮免許 学科試験（第一段階）</option>
+                            <option value="signs">道路標識・標示 マスター</option>
+                            <option value="hazard">危険予測イラスト問題（2点）</option>
                         </select>
                     </div>
                     <div class="custom-select" style="flex: 1.2; min-width: 210px;">
@@ -627,42 +645,45 @@
                     </div>
                 </div>
 
-                <!-- 塗りつぶしステータス集計バー -->
                 <div class="syllabus-summary-card">
                     <div class="syllabus-summary-header">
-                        <span id="syllabusOverallTitle" class="syllabus-overall-title">中小企業診断士 全体網羅率</span>
+                        <span id="syllabusOverallTitle" class="syllabus-overall-title">本免許 学科試験 全体の学習現在地</span>
                         <span id="syllabusOverallPercent" class="syllabus-overall-percent">0% (0 / 0 論点着手)</span>
                     </div>
                     <div class="progress-bar syllabus-progress-bar">
-                        <div id="syllabusMasteredBar" class="syllabus-bar-segment seg-mastered" style="width: 0%;"></div>
-                        <div id="syllabusLearningBar" class="syllabus-bar-segment seg-learning" style="width: 0%;"></div>
+                        <div id="syllabusMasteredBar" class="syllabus-bar-segment seg-mastered" style="width: 0%;">
+                        </div>
+                        <div id="syllabusLearningBar" class="syllabus-bar-segment seg-learning" style="width: 0%;">
+                        </div>
                         <div id="syllabusWeakBar" class="syllabus-bar-segment seg-weak" style="width: 0%;"></div>
                     </div>
                     <div class="syllabus-legend">
-                        <span class="legend-item"><span class="legend-dot dot-mastered"></span>🟩 マスター済 (2問以上＆正答率80%↑): <strong id="countMastered">0</strong></span>
-                        <span class="legend-item"><span class="legend-dot dot-learning"></span>🟨 学習中 (着手済): <strong id="countLearning">0</strong></span>
-                        <span class="legend-item"><span class="legend-dot dot-weak"></span>🟥 要復習・弱点 (正答率50%未満/誤答超過): <strong id="countWeak">0</strong></span>
-                        <span class="legend-item"><span class="legend-dot dot-unstudied"></span>⬜ 未学習: <strong id="countUnstudied">0</strong></span>
+                        <span class="legend-item"><span class="legend-dot dot-mastered"></span>🟩 マスター済 (2問以上＆正答率80%↑):
+                            <strong id="countMastered">0</strong></span>
+                        <span class="legend-item"><span class="legend-dot dot-learning"></span>🟨 学習中 (着手済): <strong
+                                id="countLearning">0</strong></span>
+                        <span class="legend-item"><span class="legend-dot dot-weak"></span>🟥 要復習・弱点 (正答率50%未満/誤答超過):
+                            <strong id="countWeak">0</strong></span>
+                        <span class="legend-item"><span class="legend-dot dot-unstudied"></span>⬜ 未学習: <strong
+                                id="countUnstudied">0</strong></span>
                     </div>
                 </div>
 
-                <!-- 🎯 正答・誤答の傾向分析＆特化すべき重点項目パネル -->
+                <!-- 正答・誤答の傾向分析＆特化すべき重点項目パネル -->
                 <div id="trendAnalysisPanel" class="trend-analysis-panel">
                     <div class="trend-panel-header">
                         <h3>🎯 正答・誤答の傾向分析 ＆ 特化すべき重点項目</h3>
                         <span class="trend-panel-sub">解答履歴から自動診断（タイルやボタンを押すとその論点をピンポイント出題します）</span>
                     </div>
                     <div class="trend-grid">
-                        <!-- 左: 最優先で潰すべき弱点論点 Top 5 -->
                         <div class="trend-card trend-card-weak">
                             <h4>🔥 最優先で特化すべき弱点論点 Top 5</h4>
                             <div id="weakSubtopicsList" class="trend-item-list">
                                 <!-- Populated by JS -->
                             </div>
                         </div>
-                        <!-- 右: 未着手の空白論点 ＆ 出題形式別傾向 -->
                         <div class="trend-card trend-card-insight">
-                            <h4>📐 出題形式・問題タイプ別の正答傾向</h4>
+                            <h4>📐 問題形式別の正答傾向（本番対策診断）</h4>
                             <div id="formatTendencySummary" class="format-tendency-box">
                                 <!-- Populated by JS -->
                             </div>
@@ -674,11 +695,11 @@
                     </div>
                 </div>
 
-                <!-- 🗺️ 分野×小分類 塗りつぶしマップ本体 -->
+                <!-- 分野×小分類 塗りつぶしマップ本体 -->
                 <div class="syllabus-map-section">
                     <div class="syllabus-map-section-header">
                         <h3>🗺️ 出題分野 × 小分類（重要論点）塗りつぶしマップ</h3>
-                        <span class="syllabus-map-hint">💡 各論点タイルをクリックすると、その論点の問題を即座に生成して演習できます</span>
+                        <span class="syllabus-map-hint">💡 各論点タイルをクリックすると、その論点の問題を即座に出題します</span>
                     </div>
                     <div id="syllabusMapContainer" class="syllabus-map-container">
                         <!-- Populated dynamically by app.js -->
@@ -687,12 +708,13 @@
             </div>
 
             <div class="modal-actions stats-modal-footer border-top">
-                <button type="button" id="closeSyllabusFooterBtn" class="secondary-btn" style="width: 100%;">閉じる</button>
+                <button type="button" id="closeSyllabusFooterBtn" class="secondary-btn"
+                    style="width: 100%;">閉じる</button>
             </div>
         </div>
     </div>
 
-    <!-- v2.30: Googleドライブ自動クラウド同期 (GAS) セットアップガイドモーダル -->
+    <!-- Googleドライブ自動クラウド同期 (GAS) セットアップガイドモーダル -->
     <div id="gasGuideModal" class="modal hidden">
         <div class="modal-content glass-card stats-modal-content" style="max-width: 820px; width: 100%;">
             <div class="modal-header stats-modal-header">
@@ -702,7 +724,9 @@
             <div class="stats-modal-body api-guide-body">
                 <div class="guide-alert-box">
                     <div class="guide-alert-title">🛡️ 完全無料＆データはご自身のGoogleドライブだけに保存されます</div>
-                    <p>ご自身のGoogleアカウントに小さなスクリプト（Google Apps Script）を1つ設置するだけで、PC・スマホ・タブレットのどこからGitHub Pagesを開いても自動で学習データが同期されます。ファイルはGoogleドライブ内の <code>QuaGenius_Sync/quagenius_cloud_sync.json</code> に自動保存されます。</p>
+                    <p>ご自身のGoogleアカウントに小さなスクリプト（Google Apps
+                        Script）を1つ設置するだけで、PC・スマホ・タブレットのどこから開いても自動で学習データが同期されます。ファイルはGoogleドライブ内の
+                        <code>DriveGenius_Sync/drivegenius_cloud_sync.json</code> に自動保存されます。</p>
                 </div>
 
                 <div class="guide-card">
@@ -712,12 +736,15 @@
                     </div>
                     <div class="guide-steps">
                         <ol>
-                            <li><a href="https://script.google.com/home/start" target="_blank" rel="noopener noreferrer" class="link-btn">Google Apps Script を開く</a> をクリックし、左上の <strong>「新しいプロジェクト」</strong> を押します。</li>
+                            <li><a href="https://script.google.com/home/start" target="_blank" rel="noopener noreferrer"
+                                    class="link-btn">Google Apps Script を開く</a> をクリックし、左上の <strong>「新しいプロジェクト」</strong>
+                                を押します。</li>
                             <li>下の「📋 GASコードをコピー」ボタンを押して、エディタ内の既存コードをすべて消してから貼り付けます。</li>
-                            <li>コード内の <code>CHANGE_THIS_TO_YOUR_SECRET</code> を、<strong>お好きな合言葉</strong>（例: <code>my-quiz-2026</code> など半角英数字）に書き換えて、上部アイコン（または <code>Ctrl+S</code>）で保存します。</li>
+                            <li>コード内の <code>CHANGE_THIS_TO_YOUR_SECRET</code> を、<strong>お好きな合言葉</strong>（例:
+                                <code>my-menkyo-2026</code> など半角英数字）に書き換えて保存します。</li>
                         </ol>
                         <div class="gas-code-toolbar">
-                            <span>📄 <code>quagenius_sync.gs</code>（そのままコピペ用）</span>
+                            <span>📄 <code>drivegenius_sync.gs</code>（そのままコピペ用）</span>
                             <button type="button" id="copyGasCodeBtn" class="tutor-tool-btn">📋 GASコードをコピー</button>
                         </div>
                         <pre class="gas-code-block"><code id="gasCodePreview"></code></pre>
@@ -736,11 +763,10 @@
                             <li>以下の2項目を設定して <strong>「デプロイ」</strong> を押します：
                                 <ul>
                                     <li>次のユーザーとして実行：<strong>「自分」</strong></li>
-                                    <li>アクセスできるユーザー：<strong>「全員」</strong>（※合言葉が一致しないアクセスは拒否されるため安全です）</li>
+                                    <li>アクセスできるユーザー：<strong>「全員」</strong></li>
                                 </ul>
                             </li>
-                            <li>初回のみ「アクセスを承認」画面が出ます。ご自身のGoogleアカウントを選び、「このアプリはGoogleで確認されていません」と出た場合は左下の <strong>「詳細」</strong> ＞ <strong>「（プロジェクト名）（安全ではないページ）に移動」</strong> ＞ <strong>「許可」</strong> を押します。</li>
-                            <li>表示された <strong>ウェブアプリ URL</strong>（<code>https://script.google.com/macros/s/.../exec</code>）をコピーします。</li>
+                            <li>初回のみ「アクセスを承認」画面が出たら許可し、表示された <strong>ウェブアプリ URL</strong> をコピーします。</li>
                         </ol>
                     </div>
                 </div>
@@ -748,19 +774,20 @@
                 <div class="guide-card">
                     <div class="guide-card-header">
                         <span class="guide-provider-badge badge-openrouter">STEP 3</span>
-                        <h3>QuaGenius の⚙️設定に貼って同期開始！</h3>
+                        <h3>DriveGenius の⚙️設定に貼って同期開始！</h3>
                     </div>
                     <div class="guide-steps">
                         <ol>
-                            <li>QuaGenius の⚙️設定画面に戻り、コピーした <strong>GAS ウェブアプリ URL</strong> と STEP 1 で決めた <strong>合言葉</strong> を入力します。</li>
+                            <li>DriveGenius の⚙️設定画面に戻り、コピーした <strong>GAS ウェブアプリ URL</strong> と STEP 1 で決めた
+                                <strong>合言葉</strong> を入力します。</li>
                             <li><strong>「🔗 接続テスト＆今すぐ同期」</strong> を押して「✅ 同期完了」と出たら設定完了です！</li>
-                            <li>スマホや別PCでも同じ URL と合言葉を1回入力するだけで、以降は起動時・解答時に自動同期されます。</li>
                         </ol>
                     </div>
                 </div>
             </div>
             <div class="modal-actions stats-modal-footer border-top">
-                <button type="button" id="closeGasGuideFooterBtn" class="secondary-btn" style="width: 100%;">設定画面に戻る</button>
+                <button type="button" id="closeGasGuideFooterBtn" class="secondary-btn"
+                    style="width: 100%;">設定画面に戻る</button>
             </div>
         </div>
     </div>
@@ -768,6 +795,10 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast hidden"></div>
 
-    <script src="app.js?v=2.30.1"></script>
+    <script src="data/traffic_visuals.js?v=1.0.0"></script>
+    <script src="data/menkyo_curriculum.js?v=1.0.0"></script>
+    <script src="data/question_bank.js?v=1.0.0"></script>
+    <script src="app.js?v=1.0.0"></script>
 </body>
+
 </html>

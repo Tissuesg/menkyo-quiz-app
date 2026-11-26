@@ -2838,6 +2838,389 @@ select:focus, input:focus {
     z-index: 1200;
 }
 
+/* ==========================================================================
+   DriveGenius Extensions: ○×問題・道路標識SVG・危険予測3連○× UI
+   ========================================================================== */
+
+.source-badge-bank {
+    background: rgba(16, 185, 129, 0.16) !important;
+    border: 1px solid rgba(52, 211, 153, 0.45) !important;
+    color: #6ee7b7 !important;
+    font-weight: 700;
+}
+
+.source-badge-ai {
+    background: rgba(99, 102, 241, 0.18) !important;
+    border: 1px solid rgba(129, 140, 248, 0.45) !important;
+    color: #c7d2fe !important;
+    font-weight: 700;
+}
+
+/* --- Visual Card (Road Signs & Hazard Illustration) --- */
+.quiz-visual-container {
+    margin: 0.75rem 0 1.25rem;
+}
+
+.sign-visual-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 14px;
+    padding: 1.15rem 1rem;
+}
+
+.sign-svg-frame {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 0.85rem 1.25rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 148px;
+    min-height: 132px;
+}
+
+.sign-svg-frame svg {
+    width: 130px;
+    height: 130px;
+    max-width: 100%;
+    display: block;
+}
+
+.visual-caption {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.visual-caption.revealed {
+    color: #fde68a;
+    background: rgba(245, 158, 11, 0.14);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+}
+
+.hazard-visual-card {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: 14px;
+    padding: 0.95rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.hazard-visual-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.hazard-scene-title {
+    font-weight: 800;
+    font-size: 0.96rem;
+    color: #f8fafc;
+}
+
+.hazard-scene-speed {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fde047;
+    background: rgba(234, 179, 8, 0.15);
+    border: 1px solid rgba(250, 204, 21, 0.35);
+    padding: 0.22rem 0.65rem;
+    border-radius: 999px;
+}
+
+.hazard-svg-frame {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #0f172a;
+}
+
+.hazard-svg-frame svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.hazard-situation-note {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    line-height: 1.55;
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 3px solid var(--primary-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 6px 6px 0;
+}
+
+/* --- True / False (○×) Container --- */
+.tf-container {
+    margin-top: 1.25rem;
+}
+
+.tf-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 540px) {
+    .tf-buttons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tf-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.14);
+    background: rgba(30, 41, 59, 0.75);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: inherit;
+}
+
+.tf-btn-true:hover:not(:disabled) {
+    border-color: #34d399;
+    background: rgba(16, 185, 129, 0.18);
+    transform: translateY(-2px);
+}
+
+.tf-btn-false:hover:not(:disabled) {
+    border-color: #f87171;
+    background: rgba(239, 68, 68, 0.18);
+    transform: translateY(-2px);
+}
+
+.tf-btn:disabled {
+    cursor: default;
+}
+
+.tf-symbol {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.tf-label {
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.tf-key-hint {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+}
+
+.tf-btn.selected {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.tf-btn.correct {
+    border-color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.28) !important;
+    color: #ecfdf5 !important;
+}
+
+.tf-btn.incorrect {
+    border-color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.28) !important;
+    color: #fef2f2 !important;
+}
+
+/* --- Hazard 3-Statement Container --- */
+.hazard-container {
+    margin-top: 1.2rem;
+}
+
+.hazard-statements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.hazard-statement-card {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 12px;
+    padding: 0.95rem 1.05rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.hazard-statement-card.stmt-correct {
+    border-color: rgba(16, 185, 129, 0.65);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.hazard-statement-card.stmt-incorrect {
+    border-color: rgba(239, 68, 68, 0.65);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.hazard-stmt-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+}
+
+.hazard-stmt-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.35);
+    border: 1px solid rgba(129, 140, 248, 0.6);
+    color: #e0e7ff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
+.hazard-stmt-text {
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: #f8fafc;
+    flex: 1;
+}
+
+.hazard-toggle-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+}
+
+.hazard-toggle-btn {
+    padding: 0.55rem 0.75rem;
+    border-radius: 9px;
+    border: 1.5px solid rgba(148, 163, 184, 0.32);
+    background: rgba(30, 41, 59, 0.7);
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.16s ease;
+}
+
+.hazard-toggle-btn:hover:not(:disabled) {
+    border-color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.18);
+}
+
+.hazard-toggle-btn.is-active-true {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.28);
+    color: #ecfdf5;
+}
+
+.hazard-toggle-btn.is-active-false {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.28);
+    color: #fef2f2;
+}
+
+.hazard-toggle-btn.is-correct-answer {
+    box-shadow: 0 0 0 2px #10b981;
+}
+
+.hazard-reason-box {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    padding: 0.55rem 0.75rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.28);
+    color: #e2e8f0;
+    border-left: 3px solid #94a3b8;
+}
+
+.hazard-statement-card.stmt-correct .hazard-reason-box {
+    border-left-color: #10b981;
+}
+
+.hazard-statement-card.stmt-incorrect .hazard-reason-box {
+    border-left-color: #ef4444;
+}
+
+/* --- Result Answer Summary Banner --- */
+.answer-summary-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    margin-bottom: 1rem;
+    font-size: 0.92rem;
+    color: #f8fafc;
+}
+
+/* --- Print overrides for DriveGenius --- */
+@media print {
+    .quiz-visual-container {
+        margin: 0.5rem 0 1rem !important;
+    }
+    .sign-visual-card,
+    .hazard-visual-card,
+    .hazard-statement-card,
+    .answer-summary-banner {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+        box-shadow: none !important;
+    }
+    .hazard-scene-title,
+    .hazard-stmt-text,
+    .visual-caption,
+    .hazard-situation-note,
+    .hazard-reason-box {
+        color: #0f172a !important;
+        background: #f8fafc !important;
+    }
+    .tf-btn {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 1px solid #94a3b8 !important;
+    }
+    .tf-btn.correct {
+        background: #e6f4ea !important;
+        border-color: #137333 !important;
+        color: #137333 !important;
+    }
+    .tf-btn.incorrect {
+        background: #fce8e6 !important;
+        border-color: #c5221f !important;
+        color: #c5221f !important;
+    }
+    .tf-key-hint {
+        display: none !important;
+    }
+}
+
+
 
 
 
